@@ -55,7 +55,7 @@ static const Rule rules[] = {
 	{ "Gimp",    NULL,          NULL,       0,              1,          0,           0,        -1 },
 	{ "Firefox", NULL,          NULL,       1 << 8,         0,          0,          -1,        -1 },
 	{ NULL,	     "spterm",		NULL,		SPTAG(0),		1,			1,           0,        -1 },
-	{ NULL,	     "spfm",		NULL,		SPTAG(1),		1,			1,           0,        -1 },
+	{ NULL,	     "spcalc",		NULL,		SPTAG(1),		1,			1,           0,        -1 },
 };
 
 /* layout(s) */
@@ -109,6 +109,7 @@ static const Layout layouts[] = {
 /* commands */
 static const char *termcmd[]  = { "st", NULL };
 
+#include <X11/XF86keysym.h>
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -162,13 +163,14 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} },
 	//{ MODKEY,                       XK_g,      setmfact,       {.f = +0.05} },
 	//{ MODKEY|ShiftMask,             XK_g,      setcfact,       {.f = +0.25} },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	//{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	//{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd} },
+	{ MODKEY,                       XK_apostrophe,	    togglescratch,	    {.ui = 1} },
 	{ MODKEY|ShiftMask,             XK_Return, togglescratch,  {.ui = 0} },
 	{ MODKEY,                       XK_z,      incrgaps,       {.i = +3} },
 	//{ MODKEY|ShiftMask,             XK_z,      incrgaps,       {.i = -3} },
@@ -219,6 +221,14 @@ static Key keys[] = {
 	//{ MODKEY,                       XK_F10,     spawn,     {.i = +1 } },
 	//{ MODKEY,                       XK_F11,     spawn,     {.i = +1 } },
 	//{ MODKEY,                       XK_F12,     spawn,     {.i = +1 } },
+
+	{ 0, XF86XK_AudioMute,  		spawn,		SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)") },
+	{ 0, XF86XK_AudioMicMute,   	spawn,		SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
+	{ 0, XF86XK_PowerOff,	    	spawn,		SHCMD("sysact") },
+	{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("xbacklight -inc 5") },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("xbacklight -dec 5") },
 
 };
 
