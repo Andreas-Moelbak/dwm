@@ -23,7 +23,7 @@ static char selbordercolor[]        = "#f39660";
 static char selbgcolor[]            = "#474a5a";
 
 static const char *colors[][3]      = {
-	/*  					fg         bg          border   */
+	/*      			   fg           bg           border   */
        [SchemeNorm] =    { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  =    { selfgcolor,  selbgcolor,  selbordercolor  },
 	   //[SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan },
@@ -35,7 +35,7 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", "-e", "tmux"   , NULL };
 const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-g", "110x34", "-e", "python3", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
@@ -73,16 +73,9 @@ static const Layout layouts[] = {
 	{ "[@]",      spiral },
 	{ "[\\]",     dwindle },
 	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
-	{ "###",      nrowgrid },
 	{ "---",      horizgrid },
-	{ ":::",      gaplessgrid },
-
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
@@ -157,7 +150,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_a,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	//{ MODKEY|ShiftMask,             XK_s,      setcfact,       {.f = +0.25} },
-	{ MODKEY,                       XK_d,      spawn,          SHCMD("dmenu_run") },
+	//{ MODKEY,                       XK_d,      spawn,          SHCMD("dmenu_run") },
+	{ MODKEY,                       XK_d,      spawn,          SHCMD("rofi -show drun") },
 	//{ MODKEY|ShiftMask,             XK_d,      setcfact,       {.f = +0.25} },
 	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} },
